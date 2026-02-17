@@ -21,6 +21,10 @@ class Settings(BaseSettings):
         default="bdi-test",
         description="Call the api like `BDI_S3_BUCKET=yourbucket uvicorn ...`",
     )
+    db_url: str = Field(
+        default="sqlite:///hr_database.db",
+        description="Database URL. Set BDI_DB_URL for PostgreSQL, e.g. postgresql://postgres:postgres@localhost:5432/hr_database",
+    )
 
     model_config = SettingsConfigDict(env_prefix="bdi_")
 
