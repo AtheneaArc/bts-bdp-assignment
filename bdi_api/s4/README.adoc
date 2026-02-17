@@ -28,6 +28,7 @@ I'll use my own bucket to test your code.
 It's important you use the `Settings().s3_bucket` variable in your code
 and place the files in the correct path
 
+
 1. The application does not compile/start -> 0 automatically
 2. Virtual environments are not used -> 0 automatically
 3. I'll run a series of validation tests against your application (4 points)
