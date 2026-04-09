@@ -1,13 +1,13 @@
 services:
   minio:
     image: minio/minio:latest
-    container_name: bdi-minio
+    container_name: bdi-assignment-minio
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9002:9000"
+      - "9003:9001"
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
@@ -19,7 +19,7 @@ services:
 
   minio-init:
     image: minio/mc:latest
-    container_name: bdi-minio-init
+    container_name: bdi-assignment-minio-init
     depends_on:
       minio:
         condition: service_healthy
@@ -28,12 +28,12 @@ services:
       mc alias set local http://minio:9000 minioadmin minioadmin &&
       mc mb --ignore-existing local/bronze &&
       mc mb --ignore-existing local/silver &&
-      echo 'Buckets ready'
+      echo 'Buckets created successfully'
       "
 
   airflow:
     image: apache/airflow:2.10.4-python3.11
-    container_name: bdi-airflow
+    container_name: bdi-assignment-airflow
     depends_on:
       minio:
         condition: service_healthy
@@ -52,37 +52,13 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ../dags:/opt/airflow/dags
-      - ../data:/opt/airflow/shared
+      - ./dags:/opt/airflow/dags
+      - ./data:/opt/airflow/shared
       - airflow_logs:/opt/airflow/logs
     command: >
       bash -c "pip install pandas pyarrow s3fs boto3 requests &&
                airflow standalone"
 
-  mongodb:
-    image: mongo:7
-    container_name: bdi-mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
-    volumes:
-      - mongodb_data:/data/db
-
-  neo4j:
-    image: neo4j:5
-    container_name: bdi-neo4j
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    environment:
-      NEO4J_AUTH: neo4j/password123
-    volumes:
-      - neo4j_data:/data
-
 volumes:
-  minio_data:
   airflow_logs:
-  mongodb_data:
-  neo4j_data:
+  minio_data:

@@ -1,3 +1,7 @@
+import json
+import os
+
+import pandas as pd
 from fastapi import APIRouter, status
 from pydantic import BaseModel
 
@@ -30,33 +34,85 @@ class AircraftCO2Return(BaseModel):
     co2: float | None
 
 
+def _load_tracking_df() -> pd.DataFrame:
+    path = settings.prepared_dir
+    if not os.path.isdir(path):
+        return pd.DataFrame()
+
+    files = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(".parquet")]
+    if not files:
+        return pd.DataFrame()
+
+    df = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    if "hex" in df.columns:
+        df = df.rename(columns={"hex": "icao"})
+    return df
+
+
 @s8.get("/aircraft/")
 def list_aircraft(num_results: int = 100, page: int = 0) -> list[AircraftReturn]:
-    """List all aircraft with enriched data, ordered by ICAO ascending.
+    """List all unique aircraft with enriched data, ordered by ICAO ascending."""
+    df = _load_tracking_df()
+    if df.empty:
+        return []
 
-    The data should come from the silver layer (processed by the Airflow DAG).
-    Paginated with `num_results` per page and `page` number (0-indexed).
-    """
-    # TODO: Read enriched aircraft data from your storage (S3 silver, database, or local)
-    # TODO: Order by ICAO ascending
-    # TODO: Apply pagination using num_results and page
-    return []
+    # One row per aircraft — keep first occurrence which carries enrichment columns
+    df = df.drop_duplicates(subset=["icao"])
+    df = df.sort_values("icao")
+
+    start = page * num_results
+    df_page = df.iloc[start : start + num_results]
+
+    def clean(val):
+        return None if pd.isna(val) else val
+
+    return [
+        AircraftReturn(
+            icao=row["icao"],
+            registration=clean(row.get("registration")),
+            type=clean(row.get("type")),
+            owner=clean(row.get("owner")),
+            manufacturer=clean(row.get("manufacturer")),
+            model=clean(row.get("model")),
+        )
+        for _, row in df_page.iterrows()
+    ]
 
 
 @s8.get("/aircraft/{icao}/co2")
 def get_aircraft_co2(icao: str, day: str) -> AircraftCO2Return:
-    """Calculate CO2 emissions for a given aircraft on a specific day.
+    """Calculate CO2 emissions for a given aircraft on a specific day."""
+    df = _load_tracking_df()
+    if df.empty:
+        return AircraftCO2Return(icao=icao, hours_flown=0.0, co2=None)
 
-    Computation:
-    - Each row in the tracking data represents a 5-second observation
-    - hours_flown = (number_of_observations * 5) / 3600
-    - Look up `galph` (gallons per hour) from fuel consumption rates using the aircraft's ICAO type
-    - fuel_used_kg = hours_flown * galph * 3.04
-    - co2_tons = (fuel_used_kg * 3.15) / 907.185
-    - If fuel consumption rate is not available for this aircraft type, return None for co2
-    """
-    # TODO: Count observations for this ICAO on the given day
-    # TODO: Calculate hours_flown
-    # TODO: Look up fuel consumption rate by aircraft type
-    # TODO: Calculate CO2 emissions
-    return AircraftCO2Return(icao=icao, hours_flown=0.0, co2=None)
+    df_filtered = df[df["icao"] == icao]
+    if "day" in df_filtered.columns:
+        df_filtered = df_filtered[df_filtered["day"] == day]
+
+    count = len(df_filtered)
+    hours_flown = round((count * 5) / 3600, 2)
+
+    if df_filtered.empty:
+        return AircraftCO2Return(icao=icao, hours_flown=hours_flown, co2=None)
+
+    aircraft_type = df_filtered.iloc[0].get("type")
+    if pd.isna(aircraft_type) if aircraft_type is not None else True:
+        return AircraftCO2Return(icao=icao, hours_flown=hours_flown, co2=None)
+    aircraft_type = str(aircraft_type)
+
+    fuel_rates_path = os.path.join(settings.local_dir, "fuel_rates.json")
+    if not os.path.isfile(fuel_rates_path):
+        return AircraftCO2Return(icao=icao, hours_flown=hours_flown, co2=None)
+
+    with open(fuel_rates_path) as f:
+        fuel_data = json.load(f)
+
+    if aircraft_type not in fuel_data:
+        return AircraftCO2Return(icao=icao, hours_flown=hours_flown, co2=None)
+
+    galph = fuel_data[aircraft_type]["galph"]
+    fuel_used_kg = hours_flown * galph * 3.04
+    co2_tons = round((fuel_used_kg * 3.15) / 907.185, 2)
+
+    return AircraftCO2Return(icao=icao, hours_flown=hours_flown, co2=co2_tons)
