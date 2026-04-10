@@ -1,0 +1,259 @@
+[
+  {
+    "id": "run-001",
+    "repository": "bts-bdp-assignment",
+    "branch": "main",
+    "status": "success",
+    "triggered_by": "push",
+    "started_at": "2026-03-10T10:00:00Z",
+    "finished_at": "2026-03-10T10:05:30Z",
+    "stages": ["lint", "test", "build"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-03-10T10:00:00Z",
+        "finished_at": "2026-03-10T10:00:45Z",
+        "logs_url": "/api/s9/pipelines/run-001/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "success",
+        "started_at": "2026-03-10T10:00:45Z",
+        "finished_at": "2026-03-10T10:03:20Z",
+        "logs_url": "/api/s9/pipelines/run-001/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "success",
+        "started_at": "2026-03-10T10:03:20Z",
+        "finished_at": "2026-03-10T10:05:30Z",
+        "logs_url": "/api/s9/pipelines/run-001/stages/build/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-002",
+    "repository": "bts-bdp-assignment",
+    "branch": "feat/add-info-endpoint",
+    "status": "failure",
+    "triggered_by": "pull_request",
+    "started_at": "2026-03-11T09:15:00Z",
+    "finished_at": "2026-03-11T09:17:30Z",
+    "stages": ["lint", "test"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "failure",
+        "started_at": "2026-03-11T09:15:00Z",
+        "finished_at": "2026-03-11T09:17:30Z",
+        "logs_url": "/api/s9/pipelines/run-002/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "skipped",
+        "started_at": "2026-03-11T09:17:30Z",
+        "finished_at": "2026-03-11T09:17:30Z",
+        "logs_url": "/api/s9/pipelines/run-002/stages/test/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-003",
+    "repository": "bts-bdp-assignment",
+    "branch": "feat/add-info-endpoint",
+    "status": "success",
+    "triggered_by": "pull_request",
+    "started_at": "2026-03-11T10:00:00Z",
+    "finished_at": "2026-03-11T10:06:00Z",
+    "stages": ["lint", "test", "build"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-03-11T10:00:00Z",
+        "finished_at": "2026-03-11T10:00:50Z",
+        "logs_url": "/api/s9/pipelines/run-003/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "success",
+        "started_at": "2026-03-11T10:00:50Z",
+        "finished_at": "2026-03-11T10:03:30Z",
+        "logs_url": "/api/s9/pipelines/run-003/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "success",
+        "started_at": "2026-03-11T10:03:30Z",
+        "finished_at": "2026-03-11T10:06:00Z",
+        "logs_url": "/api/s9/pipelines/run-003/stages/build/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-004",
+    "repository": "bts-bdp-assignment",
+    "branch": "main",
+    "status": "success",
+    "triggered_by": "push",
+    "started_at": "2026-03-12T08:30:00Z",
+    "finished_at": "2026-03-12T08:38:00Z",
+    "stages": ["lint", "test", "build", "deploy"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-03-12T08:30:00Z",
+        "finished_at": "2026-03-12T08:30:55Z",
+        "logs_url": "/api/s9/pipelines/run-004/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "success",
+        "started_at": "2026-03-12T08:30:55Z",
+        "finished_at": "2026-03-12T08:34:00Z",
+        "logs_url": "/api/s9/pipelines/run-004/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "success",
+        "started_at": "2026-03-12T08:34:00Z",
+        "finished_at": "2026-03-12T08:36:30Z",
+        "logs_url": "/api/s9/pipelines/run-004/stages/build/logs"
+      },
+      {
+        "name": "deploy",
+        "status": "success",
+        "started_at": "2026-03-12T08:36:30Z",
+        "finished_at": "2026-03-12T08:38:00Z",
+        "logs_url": "/api/s9/pipelines/run-004/stages/deploy/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-005",
+    "repository": "bts-bdp-assignment",
+    "branch": "feat/neo4j-endpoints",
+    "status": "success",
+    "triggered_by": "pull_request",
+    "started_at": "2026-03-13T14:00:00Z",
+    "finished_at": "2026-03-13T14:07:00Z",
+    "stages": ["lint", "test", "build"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-03-13T14:00:00Z",
+        "finished_at": "2026-03-13T14:01:00Z",
+        "logs_url": "/api/s9/pipelines/run-005/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "success",
+        "started_at": "2026-03-13T14:01:00Z",
+        "finished_at": "2026-03-13T14:04:30Z",
+        "logs_url": "/api/s9/pipelines/run-005/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "success",
+        "started_at": "2026-03-13T14:04:30Z",
+        "finished_at": "2026-03-13T14:07:00Z",
+        "logs_url": "/api/s9/pipelines/run-005/stages/build/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-006",
+    "repository": "bts-bdp-assignment",
+    "branch": "main",
+    "status": "running",
+    "triggered_by": "schedule",
+    "started_at": "2026-04-10T06:00:00Z",
+    "finished_at": null,
+    "stages": ["lint", "test", "build"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-04-10T06:00:00Z",
+        "finished_at": "2026-04-10T06:01:00Z",
+        "logs_url": "/api/s9/pipelines/run-006/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "running",
+        "started_at": "2026-04-10T06:01:00Z",
+        "finished_at": null,
+        "logs_url": "/api/s9/pipelines/run-006/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "pending",
+        "started_at": "2026-04-10T06:01:00Z",
+        "finished_at": null,
+        "logs_url": "/api/s9/pipelines/run-006/stages/build/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-007",
+    "repository": "other-repo",
+    "branch": "main",
+    "status": "failure",
+    "triggered_by": "manual",
+    "started_at": "2026-03-14T11:00:00Z",
+    "finished_at": "2026-03-14T11:05:00Z",
+    "stages": ["lint", "test"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "success",
+        "started_at": "2026-03-14T11:00:00Z",
+        "finished_at": "2026-03-14T11:01:00Z",
+        "logs_url": "/api/s9/pipelines/run-007/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "failure",
+        "started_at": "2026-03-14T11:01:00Z",
+        "finished_at": "2026-03-14T11:05:00Z",
+        "logs_url": "/api/s9/pipelines/run-007/stages/test/logs"
+      }
+    ]
+  },
+  {
+    "id": "run-008",
+    "repository": "bts-bdp-assignment",
+    "branch": "feat/airflow-dag",
+    "status": "pending",
+    "triggered_by": "push",
+    "started_at": "2026-04-10T07:00:00Z",
+    "finished_at": null,
+    "stages": ["lint", "test", "build"],
+    "stage_details": [
+      {
+        "name": "lint",
+        "status": "pending",
+        "started_at": "2026-04-10T07:00:00Z",
+        "finished_at": null,
+        "logs_url": "/api/s9/pipelines/run-008/stages/lint/logs"
+      },
+      {
+        "name": "test",
+        "status": "pending",
+        "started_at": "2026-04-10T07:00:00Z",
+        "finished_at": null,
+        "logs_url": "/api/s9/pipelines/run-008/stages/test/logs"
+      },
+      {
+        "name": "build",
+        "status": "pending",
+        "started_at": "2026-04-10T07:00:00Z",
+        "finished_at": null,
+        "logs_url": "/api/s9/pipelines/run-008/stages/build/logs"
+      }
+    ]
+  }
+]
